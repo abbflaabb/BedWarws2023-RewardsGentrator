@@ -6,7 +6,7 @@
 
     <groupId>com.abbas</groupId>
     <artifactId>BedWarws2023-Gentrator</artifactId>
-    <version>1.0v</version>
+    <version>1.1v</version>
     <packaging>jar</packaging>
 
     <name>BedWarws2023-Gentrator</name>
@@ -77,7 +77,8 @@
             <groupId>com.tomkeuper.bedwars</groupId>
             <artifactId>bedwars-api</artifactId>
             <version>4.0.0</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/BedWars-5.0.0-SNAPSHOT.jar</systemPath>
         </dependency>
     </dependencies>
 </project>

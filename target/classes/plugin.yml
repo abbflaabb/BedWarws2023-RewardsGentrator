@@ -1,5 +1,5 @@
 name: BedWarws2023-Gentrator
-version: ${project.version}
+version: 1.0v
 main: com.abbas.bedWarws2023Gentrator.BedWars2023Generator
 api-version: '1.13'
 author: Abbas

@@ -1,0 +1,18 @@
+############################################
+# author: Abbas
+# version: 1.0
+# This is the configuration file for the BedWars2023RewardsGenerator plugin.
+# Support discord: Soon
+# api-version: 1.13
+############################################
+
+xp-rewards:
+  diamond-collect:
+    amount: 25
+    enabled: true
+  emerald-collect:
+    amount: 60
+    enabled: true
+messages:
+  xp-gain: "&aYou gained &e{amount} Xp for {source}!"
+  level-up: "&aYou leveled up! You are now level &e{level}&a!"

@@ -1,0 +1,8 @@
+name: BedWarws2023-Gentrator
+version: ${project.version}
+main: com.abbas.bedWarws2023Gentrator.BedWars2023Generator
+api-version: '1.13'
+author: Abbas
+depend:
+  - BedWars2023
+load: STARTUP

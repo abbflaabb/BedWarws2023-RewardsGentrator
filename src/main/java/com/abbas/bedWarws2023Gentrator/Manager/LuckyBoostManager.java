@@ -23,22 +23,16 @@ public class LuckyBoostManager {
 
     /**
      * Check if player should receive a lucky boost
-     * @param player The player to check
-     * @return true if boost was applied
      */
     public boolean tryApplyLuckyBoost(Player player) {
-        // Don't apply if player already has an active boost
         if (hasActiveBoost(player)) {
             return false;
         }
-
         double chance = plugin.getConfig().getDouble("lucky-boost.chance", 0.05); // 5% default
-
         if (random.nextDouble() < chance) {
             applyRandomBoost(player);
             return true;
         }
-
         return false;
     }
 
@@ -51,16 +45,12 @@ public class LuckyBoostManager {
 
         ActiveBoost boost = new ActiveBoost(boostType, System.currentTimeMillis() + (duration * 1000L));
         activeBoosts.put(player.getUniqueId(), boost);
-
-        // Send visual notification
         sendBoostNotification(player, boostType, duration);
 
-        // Play sound effect
         if (plugin.getConfig().getBoolean("lucky-boost.sound-enabled", true)) {
             player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.5f);
         }
 
-        // Schedule boost expiration
         scheduleBoostExpiration(player, duration);
     }
 
@@ -71,7 +61,6 @@ public class LuckyBoostManager {
         double rand = random.nextDouble() * 100;
         double cumulative = 0;
 
-        // Check each boost type with its weight
         for (BoostType type : BoostType.values()) {
             double weight = plugin.getConfig().getDouble("lucky-boost.types." + type.getConfigKey() + ".weight", 25.0);
             cumulative += weight;
@@ -80,11 +69,11 @@ public class LuckyBoostManager {
             }
         }
 
-        return BoostType.DOUBLE; // Fallback
+        return BoostType.DOUBLE; // Fallback To BoostType 
     }
 
     /**
-     * Send title and subtitle notification to player
+     * Send notification to player
      */
     private void sendBoostNotification(Player player, BoostType boostType, int duration) {
         String title = plugin.getConfig().getString("lucky-boost.types." + boostType.getConfigKey() + ".title",
@@ -97,7 +86,6 @@ public class LuckyBoostManager {
 
         player.sendTitle(title, subtitle);
 
-        // Also send chat message
         String chatMessage = plugin.getConfig().getString("lucky-boost.types." + boostType.getConfigKey() + ".chat-message",
                 "§a§l✦ §6Lucky Boost! §a§l✦ §7You received " + boostType.getDisplayName() + " §7for §e" + duration + "s§7!");
         player.sendMessage(BedWars2023Generator.colorize(chatMessage.replace("{duration}", String.valueOf(duration))));
@@ -122,7 +110,7 @@ public class LuckyBoostManager {
                     }
                 }
             }
-        }.runTaskLater(plugin, duration * 20L); // Convert seconds to ticks
+        }.runTaskLater(plugin, duration * 20L);
     }
 
     /**
@@ -148,12 +136,10 @@ public class LuckyBoostManager {
         if (boost != null && System.currentTimeMillis() <= boost.expiresAt) {
             return boost.boostType.getMultiplier();
         }
-        return 1.0; // No boost = 1x multiplier
+        return 1.0; //1x multiplier
     }
 
-    /**
-     * Get the active boost type for a player
-     */
+
     public BoostType getActiveBoostType(Player player) {
         ActiveBoost boost = activeBoosts.get(player.getUniqueId());
         if (boost != null && System.currentTimeMillis() <= boost.expiresAt) {
@@ -163,7 +149,7 @@ public class LuckyBoostManager {
     }
 
     /**
-     * Clear all active boosts (used when plugin disables or game ends)
+     *  (used when plugin disables or game ends)
      */
     public void clearAllBoosts() {
         activeBoosts.clear();

@@ -1,11 +1,12 @@
 package com.abbas.bedWarws2023Gentrator;
 
+import com.abbas.bedWarws2023Gentrator.configuration.Messages;
 import com.tomkeuper.bedwars.api.arena.GameState;
 import com.tomkeuper.bedwars.api.events.gameplay.GameStateChangeEvent;
 import com.tomkeuper.bedwars.api.events.player.PlayerGeneratorCollectEvent;
 import com.tomkeuper.bedwars.api.events.player.PlayerKillEvent;
 import com.tomkeuper.bedwars.api.events.player.PlayerLevelUpEvent;
-import com.tomkeuper.bedwars.api.events.player.PlayerXpGainEvent;
+import com.tomkeuper.bedwars.api.language.Language;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,69 +19,61 @@ public class RewardsGenerator implements Listener {
         this.plugin = plugin;
     }
 
-
-
     @EventHandler
     public void onGameStart(GameStateChangeEvent event) {
         if (event.getNewState() == GameState.playing) {
-            if (plugin.getConfig().getBoolean("lucky-boost.enabled", true)) {
-                if (plugin.getConfig().getBoolean("lucky-boost.on-game-start", true)) {
-                    for (Player player : event.getArena().getPlayers()) {
-                        plugin.getLuckyBoostManager().tryApplyLuckyBoost(player);
-                    }
+            for (Player player : event.getArena().getPlayers()) {
+                if (Language.getPlayerLanguage(player).getBoolean(Messages.LUCKY_ON_START)) {
+                    plugin.getLuckyBoostManager().tryApplyLuckyBoost(player);
                 }
             }
         }
     }
-    /**
-     * Reward for Collecting Items from Generators
-     */
+
     @EventHandler
     public void onRewardGenerate(PlayerGeneratorCollectEvent event) {
+        Player player = event.getPlayer();
+        Language lang = Language.getPlayerLanguage(player);
         Material collectedItem = event.getItemStack().getType();
-        if (plugin.getConfig().getBoolean("lucky-boost.enabled", true)) {
-            if (plugin.getConfig().getBoolean("lucky-boost.on-resource-collect", false)) {
-                plugin.getLuckyBoostManager().tryApplyLuckyBoost(event.getPlayer());
-            }
+
+        if (lang.getBoolean(Messages.LUCKY_ON_COLLECT)) {
+            plugin.getLuckyBoostManager().tryApplyLuckyBoost(player);
         }
+
         if (collectedItem == Material.DIAMOND) {
-            if (plugin.getConfig().getBoolean("xp-rewards.diamond-collect.enabled")) {
-                plugin.giveXp(event.getPlayer(), plugin.getConfig().getInt("xp-rewards.diamond-collect.amount"));
+            if (lang.getBoolean(Messages.XP_DIAMOND_ENABLED)) {
+                plugin.giveXp(player, lang.getInt(Messages.XP_DIAMOND_AMOUNT), "Diamond");
             }
         } else if (collectedItem == Material.EMERALD) {
-            if (plugin.getConfig().getBoolean("xp-rewards.emerald-collect.enabled")) {
-                plugin.giveXp(event.getPlayer(), plugin.getConfig().getInt("xp-rewards.emerald-collect.amount"));
+            if (lang.getBoolean(Messages.XP_EMERALD_ENABLED)) {
+                plugin.giveXp(player, lang.getInt(Messages.XP_EMERALD_AMOUNT), "Emerald");
             }
         }
     }
+
     @EventHandler
     public void onPlayerKill(PlayerKillEvent event) {
         Player killer = event.getKiller();
         if (killer != null) {
-            // Try to apply lucky boost on kill
-            if (plugin.getConfig().getBoolean("lucky-boost.enabled", true)) {
-                if (plugin.getConfig().getBoolean("lucky-boost.on-kill", false)) {
-                    plugin.getLuckyBoostManager().tryApplyLuckyBoost(killer);
-                }
+            if (Language.getPlayerLanguage(killer).getBoolean(Messages.LUCKY_ON_KILL)) {
+                plugin.getLuckyBoostManager().tryApplyLuckyBoost(killer);
             }
         }
     }
-    /**
-     * Reward for Level Up
-     */
+
     @EventHandler
     public void onPlayerLevelUp(PlayerLevelUpEvent event) {
         Player player = event.getPlayer();
         int newLevel = event.getNewLevel();
-        if (plugin.getConfig().getBoolean("lucky-boost.enabled", true)) {
-            if (plugin.getConfig().getBoolean("lucky-boost.on-level-up", false)) {
-                plugin.getLuckyBoostManager().tryApplyLuckyBoost(player);
-            }
+        Language lang = Language.getPlayerLanguage(player);
+
+        if (lang.getBoolean(Messages.LUCKY_ON_LEVEL)) {
+            plugin.getLuckyBoostManager().tryApplyLuckyBoost(player);
         }
-        String message = plugin.getConfig().getString("messages.level-up");
-        if (message != null) {
-            message = message
-                    .replace("{level}", String.valueOf(newLevel));
+
+        String message = Language.getMsg(player, Messages.LEVEL_UP);
+        if (message != null && !message.isEmpty()) {
+            message = message.replace("{level}", String.valueOf(newLevel));
             player.sendTitle(BedWars2023Generator.colorize(message), "");
         }
     }

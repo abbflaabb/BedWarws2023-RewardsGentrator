@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.abbas</groupId>
-    <artifactId>BedWarws2023-Gentrator</artifactId>
-    <version>1.1v</version>
+    <artifactId>BedWars2023-Gentrator</artifactId>
+    <version>1.2v</version>
     <packaging>jar</packaging>
 
-    <name>BedWarws2023-Gentrator</name>
+    <name>BedWars2023-Gentrator</name>
 
     <properties>
         <java.version>17</java.version>
@@ -79,6 +79,11 @@
             <version>4.0.0</version>
             <scope>system</scope>
             <systemPath>${project.basedir}/libs/BedWars-5.0.0-SNAPSHOT.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>23.0.0</version>
         </dependency>
     </dependencies>
 </project>

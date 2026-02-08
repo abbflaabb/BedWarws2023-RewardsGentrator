@@ -1,6 +1,8 @@
 package com.abbas.bedWarws2023Gentrator.Manager;
 
 import com.abbas.bedWarws2023Gentrator.BedWars2023Generator;
+import com.abbas.bedWarws2023Gentrator.configuration.Messages;
+import com.tomkeuper.bedwars.api.language.Language;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -11,6 +13,7 @@ import java.util.Random;
 import java.util.UUID;
 
 public class LuckyBoostManager {
+
     private final BedWars2023Generator plugin;
     private final Map<UUID, ActiveBoost> activeBoosts;
     private final Random random;
@@ -25,14 +28,22 @@ public class LuckyBoostManager {
      * Check if player should receive a lucky boost
      */
     public boolean tryApplyLuckyBoost(Player player) {
+        Language lang = Language.getPlayerLanguage(player);
+
+        if (!lang.getBoolean(Messages.LUCKY_BOOST_ENABLED)) {
+            return false;
+        }
+
         if (hasActiveBoost(player)) {
             return false;
         }
-        double chance = plugin.getConfig().getDouble("lucky-boost.chance", 0.05); // 5% default
+
+        double chance = lang.getDouble(Messages.LUCKY_BOOST_CHANCE);
         if (random.nextDouble() < chance) {
             applyRandomBoost(player);
             return true;
         }
+
         return false;
     }
 
@@ -40,55 +51,68 @@ public class LuckyBoostManager {
      * Apply a random boost to the player
      */
     private void applyRandomBoost(Player player) {
-        BoostType boostType = getRandomBoostType();
-        int duration = plugin.getConfig().getInt("lucky-boost.duration", 60); // 60 seconds default
+        BoostType boostType = getRandomBoostType(player);
+        Language lang = Language.getPlayerLanguage(player);
+        int duration = lang.getInt(Messages.LUCKY_BOOST_DURATION);
 
         ActiveBoost boost = new ActiveBoost(boostType, System.currentTimeMillis() + (duration * 1000L));
         activeBoosts.put(player.getUniqueId(), boost);
+
         sendBoostNotification(player, boostType, duration);
 
-        if (plugin.getConfig().getBoolean("lucky-boost.sound-enabled", true)) {
-            player.playSound(player.getLocation(), Sound.LEVEL_UP, 1.0f, 1.5f);
+        if (lang.getBoolean(Messages.LUCKY_BOOST_SOUND)) {
+            try {
+                player.playSound(player.getLocation(), Sound.valueOf("LEVEL_UP"), 1.0f, 1.5f);
+            } catch (IllegalArgumentException e) {
+                player.playSound(player.getLocation(), Sound.valueOf("ENTITY_PLAYER_LEVELUP"), 1.0f, 1.5f);
+            }
         }
 
         scheduleBoostExpiration(player, duration);
     }
 
     /**
-     * Get a random boost type based on configured weights
+     * Get a random boost type based on weights from language system
      */
-    private BoostType getRandomBoostType() {
+    private BoostType getRandomBoostType(Player player) {
         double rand = random.nextDouble() * 100;
         double cumulative = 0;
 
+        Language lang = Language.getPlayerLanguage(player);
+
         for (BoostType type : BoostType.values()) {
-            double weight = plugin.getConfig().getDouble("lucky-boost.types." + type.getConfigKey() + ".weight", 25.0);
+            double weight = lang.getDouble(type.getWeightKey());
             cumulative += weight;
             if (rand < cumulative) {
                 return type;
             }
         }
 
-        return BoostType.DOUBLE; // Fallback To BoostType 
+        return BoostType.DOUBLE;
     }
 
     /**
      * Send notification to player
      */
     private void sendBoostNotification(Player player, BoostType boostType, int duration) {
-        String title = plugin.getConfig().getString("lucky-boost.types." + boostType.getConfigKey() + ".title",
-                "§6§lYOU GOT LUCKY!");
-        String subtitle = plugin.getConfig().getString("lucky-boost.types." + boostType.getConfigKey() + ".subtitle",
-                "§bYou will receive " + boostType.getDisplayName() + " §bthis game!");
+        Language lang = Language.getPlayerLanguage(player);
 
-        title = BedWars2023Generator.colorize(title);
-        subtitle = BedWars2023Generator.colorize(subtitle.replace("{duration}", String.valueOf(duration)));
+        String title = lang.m(boostType.getTitleKey());
+        String subtitle = lang.m(boostType.getSubtitleKey());
+        String chatMessage = lang.m(boostType.getChatKey());
 
-        player.sendTitle(title, subtitle);
+        if (title != null && !title.isEmpty()) {
+            player.sendTitle(
+                    BedWars2023Generator.colorize(title),
+                    BedWars2023Generator.colorize(subtitle.replace("{duration}", String.valueOf(duration)))
+            );
+        }
 
-        String chatMessage = plugin.getConfig().getString("lucky-boost.types." + boostType.getConfigKey() + ".chat-message",
-                "§a§l✦ §6Lucky Boost! §a§l✦ §7You received " + boostType.getDisplayName() + " §7for §e" + duration + "s§7!");
-        player.sendMessage(BedWars2023Generator.colorize(chatMessage.replace("{duration}", String.valueOf(duration))));
+        if (chatMessage != null && !chatMessage.isEmpty()) {
+            player.sendMessage(BedWars2023Generator.colorize(
+                    chatMessage.replace("{duration}", String.valueOf(duration))
+            ));
+        }
     }
 
     /**
@@ -101,21 +125,25 @@ public class LuckyBoostManager {
                 if (activeBoosts.containsKey(player.getUniqueId())) {
                     activeBoosts.remove(player.getUniqueId());
 
-                    String expireMessage = plugin.getConfig().getString("lucky-boost.expire-message",
-                            "§c§l✦ §6Your Lucky Boost has expired! §c§l✦");
-                    player.sendMessage(BedWars2023Generator.colorize(expireMessage));
+                    Language lang = Language.getPlayerLanguage(player);
+                    String expireMessage = lang.m(Messages.LUCKY_BOOST_EXPIRE);
 
-                    if (plugin.getConfig().getBoolean("lucky-boost.sound-enabled", true)) {
-                        player.playSound(player.getLocation(), Sound.ITEM_BREAK, 0.7f, 1.0f);
+                    if (expireMessage != null && !expireMessage.isEmpty()) {
+                        player.sendMessage(BedWars2023Generator.colorize(expireMessage));
+                    }
+
+                    if (lang.getBoolean(Messages.LUCKY_BOOST_SOUND)) {
+                        try {
+                            player.playSound(player.getLocation(), Sound.valueOf("ITEM_BREAK"), 0.7f, 1.0f);
+                        } catch (IllegalArgumentException e) {
+                            player.playSound(player.getLocation(), Sound.valueOf("ENTITY_ITEM_BREAK"), 0.7f, 1.0f);
+                        }
                     }
                 }
             }
         }.runTaskLater(plugin, duration * 20L);
     }
 
-    /**
-     * Check if player has an active boost
-     */
     public boolean hasActiveBoost(Player player) {
         ActiveBoost boost = activeBoosts.get(player.getUniqueId());
         if (boost != null) {
@@ -128,17 +156,13 @@ public class LuckyBoostManager {
         return false;
     }
 
-    /**
-     * Get the multiplier for a player's current boost
-     */
     public double getMultiplier(Player player) {
         ActiveBoost boost = activeBoosts.get(player.getUniqueId());
         if (boost != null && System.currentTimeMillis() <= boost.expiresAt) {
             return boost.boostType.getMultiplier();
         }
-        return 1.0; //1x multiplier
+        return 1.0;
     }
-
 
     public BoostType getActiveBoostType(Player player) {
         ActiveBoost boost = activeBoosts.get(player.getUniqueId());
@@ -148,55 +172,59 @@ public class LuckyBoostManager {
         return null;
     }
 
-    /**
-     *  (used when plugin disables or game ends)
-     */
     public void clearAllBoosts() {
         activeBoosts.clear();
     }
 
-    /**
-     * Remove boost from a specific player
-     */
     public void removeBoost(Player player) {
         activeBoosts.remove(player.getUniqueId());
     }
 
-    /**
-     * Enum for different boost types
-     */
     public enum BoostType {
-        DOUBLE(2.0, "§b§lDOUBLE EXP", "double-exp"),
-        TRIPLE(3.0, "§d§lTRIPLE EXP", "triple-exp"),
-        MEGA(5.0, "§6§lMEGA EXP", "mega-exp"),
-        ULTIMATE(10.0, "§c§lULTIMATE EXP", "ultimate-exp");
+        DOUBLE(2.0, Messages.WEIGHT_DOUBLE, Messages.DOUBLE_TITLE, Messages.DOUBLE_SUBTITLE, Messages.DOUBLE_CHAT),
+        TRIPLE(3.0, Messages.WEIGHT_TRIPLE, Messages.TRIPLE_TITLE, Messages.TRIPLE_SUBTITLE, Messages.TRIPLE_CHAT),
+        MEGA(5.0, Messages.WEIGHT_MEGA, Messages.MEGA_TITLE, Messages.MEGA_SUBTITLE, Messages.MEGA_CHAT),
+        ULTIMATE(10.0, Messages.WEIGHT_ULTIMATE, Messages.ULTIMATE_TITLE, Messages.ULTIMATE_SUBTITLE, Messages.ULTIMATE_CHAT);
 
         private final double multiplier;
-        private final String displayName;
-        private final String configKey;
+        private final String weightKey;
+        private final String titleKey;
+        private final String subtitleKey;
+        private final String chatKey;
 
-        BoostType(double multiplier, String displayName, String configKey) {
+        BoostType(double multiplier, String weightKey, String titleKey, String subtitleKey, String chatKey) {
             this.multiplier = multiplier;
-            this.displayName = displayName;
-            this.configKey = configKey;
+            this.weightKey = weightKey;
+            this.titleKey = titleKey;
+            this.subtitleKey = subtitleKey;
+            this.chatKey = chatKey;
         }
 
         public double getMultiplier() {
             return multiplier;
         }
 
-        public String getDisplayName() {
-            return displayName;
+        public String getWeightKey() {
+            return weightKey;
         }
 
-        public String getConfigKey() {
-            return configKey;
+        public String getTitleKey() {
+            return titleKey;
+        }
+
+        public String getSubtitleKey() {
+            return subtitleKey;
+        }
+
+        public String getChatKey() {
+            return chatKey;
+        }
+
+        public String getDisplayName() {
+            return name().replace("_", " ");
         }
     }
 
-    /**
-     * Class to store active boost information
-     */
     private static class ActiveBoost {
         private final BoostType boostType;
         private final long expiresAt;

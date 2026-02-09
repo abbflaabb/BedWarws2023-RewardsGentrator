@@ -12,7 +12,8 @@ A customizable **Reward Generator addon for BedWars 2023**, designed to enhance 
 - 🛏️ **BedWars 2023 Compatible,Not Support Bw2023Proxy**
 - 🚀 **Lightweight & Performance-Friendly**
 - 🔧 **Easy Setup & Customization**
-
+- 📝 **Placeholders** 
+- **[{amount},{base_amount}, {multiplier}, {Source}]** **for dynamic rewards**
 ---
 
 ## 📦 Installation

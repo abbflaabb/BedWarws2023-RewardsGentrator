@@ -1,7 +1,9 @@
 package com.abbas.bedWarws2023Gentrator;
 
+import com.abbas.bedWarws2023Gentrator.configuration.ConfigPath;
 import com.abbas.bedWarws2023Gentrator.configuration.Messages;
 import com.tomkeuper.bedwars.api.arena.GameState;
+import com.tomkeuper.bedwars.api.configuration.ConfigManager;
 import com.tomkeuper.bedwars.api.events.gameplay.GameStateChangeEvent;
 import com.tomkeuper.bedwars.api.events.player.PlayerGeneratorCollectEvent;
 import com.tomkeuper.bedwars.api.events.player.PlayerKillEvent;
@@ -22,8 +24,9 @@ public class RewardsGenerator implements Listener {
     @EventHandler
     public void onGameStart(GameStateChangeEvent event) {
         if (event.getNewState() == GameState.playing) {
-            for (Player player : event.getArena().getPlayers()) {
-                if (Language.getPlayerLanguage(player).getBoolean(Messages.LUCKY_ON_START)) {
+            ConfigManager config = plugin.getBedWarsConfigManager();
+            if (config.getBoolean(ConfigPath.LUCKY_ON_START)) {
+                for (Player player : event.getArena().getPlayers()) {
                     plugin.getLuckyBoostManager().tryApplyLuckyBoost(player);
                 }
             }
@@ -33,20 +36,20 @@ public class RewardsGenerator implements Listener {
     @EventHandler
     public void onRewardGenerate(PlayerGeneratorCollectEvent event) {
         Player player = event.getPlayer();
-        Language lang = Language.getPlayerLanguage(player);
+        ConfigManager config = plugin.getBedWarsConfigManager();
         Material collectedItem = event.getItemStack().getType();
 
-        if (lang.getBoolean(Messages.LUCKY_ON_COLLECT)) {
+        if (config.getBoolean(ConfigPath.LUCKY_ON_COLLECT)) {
             plugin.getLuckyBoostManager().tryApplyLuckyBoost(player);
         }
 
         if (collectedItem == Material.DIAMOND) {
-            if (lang.getBoolean(Messages.XP_DIAMOND_ENABLED)) {
-                plugin.giveXp(player, lang.getInt(Messages.XP_DIAMOND_AMOUNT), "Diamond");
+            if (config.getBoolean(ConfigPath.XP_DIAMOND_ENABLED)) {
+                plugin.giveXp(player, config.getInt(ConfigPath.XP_DIAMOND_AMOUNT), "Diamond");
             }
         } else if (collectedItem == Material.EMERALD) {
-            if (lang.getBoolean(Messages.XP_EMERALD_ENABLED)) {
-                plugin.giveXp(player, lang.getInt(Messages.XP_EMERALD_AMOUNT), "Emerald");
+            if (config.getBoolean(ConfigPath.XP_EMERALD_ENABLED)) {
+                plugin.giveXp(player, config.getInt(ConfigPath.XP_EMERALD_AMOUNT), "Emerald");
             }
         }
     }
@@ -55,7 +58,8 @@ public class RewardsGenerator implements Listener {
     public void onPlayerKill(PlayerKillEvent event) {
         Player killer = event.getKiller();
         if (killer != null) {
-            if (Language.getPlayerLanguage(killer).getBoolean(Messages.LUCKY_ON_KILL)) {
+            ConfigManager config = plugin.getBedWarsConfigManager();
+            if (config.getBoolean(ConfigPath.LUCKY_ON_KILL)) {
                 plugin.getLuckyBoostManager().tryApplyLuckyBoost(killer);
             }
         }
@@ -65,9 +69,9 @@ public class RewardsGenerator implements Listener {
     public void onPlayerLevelUp(PlayerLevelUpEvent event) {
         Player player = event.getPlayer();
         int newLevel = event.getNewLevel();
-        Language lang = Language.getPlayerLanguage(player);
+        ConfigManager config = plugin.getBedWarsConfigManager();
 
-        if (lang.getBoolean(Messages.LUCKY_ON_LEVEL)) {
+        if (config.getBoolean(ConfigPath.LUCKY_ON_LEVEL)) {
             plugin.getLuckyBoostManager().tryApplyLuckyBoost(player);
         }
 

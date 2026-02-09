@@ -6,8 +6,8 @@ The following versions of this plugin are currently supported with security upda
 
 | Version | Supported |
 | ------- | --------- |
-| 1.3.x   | :white_check_mark: |
-| < 1.3   | :x: |
+| 1.8x   | :white_check_mark: |
+| < 1.8   | :x: |
 
 Only the latest version (1.3.x) receives security fixes.
 Older versions are no longer supported.

@@ -2,20 +2,30 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+The following versions of this plugin are currently supported with security updates:
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+| Version | Supported |
+| ------- | --------- |
+| 1.3.x   | :white_check_mark: |
+| < 1.3   | :x: |
+
+Only the latest version (1.3.x) receives security fixes.
+Older versions are no longer supported.
+
+---
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+If you discover a security vulnerability in this plugin, please **do not** report it publicly
+and do **not** open a public GitHub issue.
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+### How to report
+- Use GitHub **Private Security Advisory** (preferred), or
+- Contact the developer through the project’s official communication channel.
+
+### What to expect
+- You will receive an initial response within **48 hours**.
+- If the vulnerability is accepted, a fix will be developed and released in a future update.
+- If the report is declined, an explanation will be provided.
+
+Thank you for helping keep this plugin and its users safe.

@@ -7,7 +7,10 @@ public class ConfigPath {
     public static final String XP_DIAMOND_AMOUNT = "xp-rewards.diamond-collect.amount";
     public static final String XP_EMERALD_ENABLED = "xp-rewards.emerald-collect.enabled";
     public static final String XP_EMERALD_AMOUNT = "xp-rewards.emerald-collect.amount";
-
+    public static final String XP_FIRST_BED_DESTROY_ENABLED = "xp-rewards.first-bed-destroy.enabled";
+    public static final String XP_FIRST_BED_DESTROY_AMOUNT = "xp-rewards.first-bed-destroy.amount";
+    public static final String XP_FIRST_BLOOD_ENABLE = "xp-rewards.first-blood.enabled";
+    public static final String XP_FIRST_BLOOD_AMOUNT = "xp-rewards.first-blood.amount";
     // Lucky Boost Settings
     public static final String LUCKY_BOOST_ENABLED = "lucky-boost.enabled";
     public static final String LUCKY_BOOST_CHANCE = "lucky-boost.chance";

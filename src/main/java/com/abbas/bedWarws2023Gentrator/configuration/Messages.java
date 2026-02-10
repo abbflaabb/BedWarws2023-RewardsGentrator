@@ -11,6 +11,8 @@ public class Messages {
     // Messages
     public static final String XP_GAIN = PATH + "messages.xp-gain";
     public static final String LEVEL_UP = PATH + "messages.level-up";
+    public static final String FIRST_BED_DESTROY = PATH + "messages.first-bed-destroy";
+    public static final String FIRST_BLOOD_MESSAGE = PATH + "messages.first-blood";
     public static final String LUCKY_BOOST_EXPIRE = PATH + "lucky-boost.expire-message";
 
     // Boost Titles/Subtitles/Chat
@@ -103,6 +105,8 @@ public class Messages {
         addDefault(l, ULTIMATE_TITLE, "&c&lULTIMATE LUCKY!");
         addDefault(l, ULTIMATE_SUBTITLE, "&bYou will receive &c&lULTIMATE EXP &bin this game!");
         addDefault(l, ULTIMATE_CHAT, "&a&l✦ &6Lucky Boost! &a&l✦ &7You received &c&lULTIMATE EXP &7for &e{duration}s&7!");
+        addDefault(l, FIRST_BED_DESTROY, "&aYou destroyed your first bed! You received &e{amount} Xp&a!");
+        addDefault(l, FIRST_BLOOD_MESSAGE, "&aYou got your first kill! You received &e{amount} Xp&a!");
     }
 
     private static void setupRomanian(Language l) {
@@ -121,6 +125,8 @@ public class Messages {
         addDefault(l, ULTIMATE_TITLE, "&c&lNOROC SUPREM!");
         addDefault(l, ULTIMATE_SUBTITLE, "&bVei primi &c&lEXP SUPREM &bîn acest joc!");
         addDefault(l, ULTIMATE_CHAT, "&a&l✦ &6Lucky Boost! &a&l✦ &7Ai primit &c&lEXP SUPREM &7pentru &e{duration}s&7!");
+        addDefault(l, FIRST_BED_DESTROY, "&aAi distrus primul tău pat! Ai primit &e{amount} Xp&a!");
+
     }
 
     private static void setupSpanish(Language l) {
@@ -139,6 +145,8 @@ public class Messages {
         addDefault(l, ULTIMATE_TITLE, "&c&l¡SUERTE SUPREMA!");
         addDefault(l, ULTIMATE_SUBTITLE, "&b¡Recibirás &c&lEXP SUPREMA &ben este juego!");
         addDefault(l, ULTIMATE_CHAT, "&a&l✦ &6¡Lucky Boost! &a&l✦ &7¡Recibiste &c&lEXP SUPREMA &7por &e{duration}s&7!");
+        addDefault(l, FIRST_BED_DESTROY, "&a¡Destruiste tu primera cama! ¡Recibiste &e{amount} Xp&a!");
+
     }
 
     private static void setupPortuguese(Language l) {
@@ -157,6 +165,8 @@ public class Messages {
         addDefault(l, ULTIMATE_TITLE, "&c&lSORTE SUPREMA!");
         addDefault(l, ULTIMATE_SUBTITLE, "&bVocê receberá &c&lEXP SUPREMA &bneste jogo!");
         addDefault(l, ULTIMATE_CHAT, "&a&l✦ &6Lucky Boost! &a&l✦ &7Você recebeu &c&lEXP SUPREMA &7por &e{duration}s&7!");
+        addDefault(l, FIRST_BED_DESTROY, "&aVocê destruiu sua primeira cama! Você recebeu &e{amount} Xp&a!");
+
     }
 
     private static void setupItalian(Language l) {
@@ -175,6 +185,8 @@ public class Messages {
         addDefault(l, ULTIMATE_TITLE, "&c&lFORTUNATISSIMO!");
         addDefault(l, ULTIMATE_SUBTITLE, "&bRiceverai &c&lEXP SUPREMA &bin questa partita!");
         addDefault(l, ULTIMATE_CHAT, "&a&l✦ &6Lucky Boost! &a&l✦ &7Hai ricevuto &c&lEXP SUPREMA &7per &e{duration}s&7!");
+        addDefault(l, FIRST_BED_DESTROY, "&aHai distrutto il tuo primo letto! Hai ricevuto &e{amount} Xp&a!");
+
     }
 
     private static void setupFrench(Language l) {
@@ -193,6 +205,8 @@ public class Messages {
         addDefault(l, ULTIMATE_TITLE, "&c&lCHANCE ULTIME!");
         addDefault(l, ULTIMATE_SUBTITLE, "&bVous recevrez &c&lEXP ULTIME &bdans ce jeu!");
         addDefault(l, ULTIMATE_CHAT, "&a&l✦ &6Lucky Boost! &a&l✦ &7Vous avez reçu &c&lEXP ULTIME &7pendant &e{duration}s&7!");
+        addDefault(l, FIRST_BED_DESTROY, "&aVous avez détruit votre premier lit ! Vous avez reçu &e{amount} Xp&a!");
+
     }
 
     private static void setupRussian(Language l) {
@@ -211,6 +225,8 @@ public class Messages {
         addDefault(l, ULTIMATE_TITLE, "&c&lНЕВЕРОЯТНОЕ ВЕЗЕНИЕ!");
         addDefault(l, ULTIMATE_SUBTITLE, "&bВы получите &c&lУЛЬТИМАТИВНЫЙ ОПЫТ &bв этой игре!");
         addDefault(l, ULTIMATE_CHAT, "&a&l✦ &6Lucky Boost! &a&l✦ &7Вы получили &c&lУЛЬТИМАТИВНЫЙ ОПЫТ &7на &e{duration}с&7!");
+        addDefault(l, FIRST_BED_DESTROY, "&aВы разрушили свою первую кровать! Вы получили &e{amount} Xp&a!");
+
     }
 
     private static void setupTurkish(Language l) {
@@ -229,6 +245,8 @@ public class Messages {
         addDefault(l, ULTIMATE_TITLE, "&c&lULTIMATE ŞANSLISIN!");
         addDefault(l, ULTIMATE_SUBTITLE, "&bBu oyunda &c&lULTIMATE TP &balacaksın!");
         addDefault(l, ULTIMATE_CHAT, "&a&l✦ &6Lucky Boost! &a&l✦ &e{duration}s &7boyunca &c&lULTIMATE TP &7kazandın!");
+        addDefault(l, FIRST_BED_DESTROY, "&aİlk yatağını yok ettin! &e{amount} TP &akazandın!");
+
     }
 
     private static void setupPolish(Language l) {
@@ -247,6 +265,8 @@ public class Messages {
         addDefault(l, ULTIMATE_TITLE, "&c&lULTIMATE SZCZĘŚCIE!");
         addDefault(l, ULTIMATE_SUBTITLE, "&bOtrzymasz &c&lULTIMATE XP &bw tej grze!");
         addDefault(l, ULTIMATE_CHAT, "&a&l✦ &6Lucky Boost! &a&l✦ &7Otrzymałeś &c&lULTIMATE XP &7na &e{duration}s&7!");
+        addDefault(l, FIRST_BED_DESTROY, "&aZniszczyłeś swoje pierwsze łóżko! Otrzymałeś &e{amount} XP&a!");
+
     }
 
     private static void setupChinese(Language l) {
@@ -265,6 +285,8 @@ public class Messages {
         addDefault(l, ULTIMATE_TITLE, "&c&l终极幸运！");
         addDefault(l, ULTIMATE_SUBTITLE, "&b你将在本局游戏中获得 &c&l十倍经验&b！");
         addDefault(l, ULTIMATE_CHAT, "&a&l✦ &6幸运加成！ &a&l✦ &7你获得了 &c&l十倍经验&7，持续 &e{duration}秒&7！");
+        addDefault(l, FIRST_BED_DESTROY, "&a你摧毁了你的第一张床！你获得了 &e{amount} 经验值&a！");
+
     }
 
     private static void setupIndonesian(Language l) {
@@ -283,6 +305,8 @@ public class Messages {
         addDefault(l, ULTIMATE_TITLE, "&c&lULTIMATE BERUNTUNG!");
         addDefault(l, ULTIMATE_SUBTITLE, "&bAnda akan menerima &c&lULTIMATE EXP &bdalam game ini!");
         addDefault(l, ULTIMATE_CHAT, "&a&l✦ &6Lucky Boost! &a&l✦ &7Anda menerima &c&lULTIMATE EXP &7selama &e{duration}d&7!");
+        addDefault(l, FIRST_BED_DESTROY, "&aAnda menghancurkan tempat tidur pertama Anda! Anda menerima &e{amount} XP&a!");
+
     }
 
     private static void setupHindi(Language l) {
@@ -301,6 +325,8 @@ public class Messages {
         addDefault(l, ULTIMATE_TITLE, "&c&lअल्टीमेट भाग्यशाली!");
         addDefault(l, ULTIMATE_SUBTITLE, "&bआपको इस गेम में &c&lULTIMATE EXP &bमिलेगा!");
         addDefault(l, ULTIMATE_CHAT, "&a&l✦ &6लकी बूस्ट! &a&l✦ &7आपको &e{duration}s &7के लिए &c&lULTIMATE EXP &7मिला!");
+        addDefault(l, FIRST_BED_DESTROY, "&aआपने अपना पहला बेड तोड़ दिया! आपको &e{amount} XP &aमिला!");
+
     }
 
     private static void setupPersian(Language l) {
@@ -319,6 +345,8 @@ public class Messages {
         addDefault(l, ULTIMATE_TITLE, "&c&lنهایت خوش‌شانسی!");
         addDefault(l, ULTIMATE_SUBTITLE, "&bشما در این بازی &c&lتجربه نهایی &bدریافت خواهید کرد!");
         addDefault(l, ULTIMATE_CHAT, "&a&l✦ &6بوست خوش‌شانسی! &a&l✦ &7شما &c&lتجربه نهایی &7برای &e{duration} ثانیه &7دریافت کردید!");
+        addDefault(l, FIRST_BED_DESTROY, "&aشما اولین تخت خود را نابود کردید! &e{amount} XP &aدریافت کردید!");
+
     }
 
     private static void setupBengali(Language l) {
@@ -337,6 +365,7 @@ public class Messages {
         addDefault(l, ULTIMATE_TITLE, "&c&lচরম ভাগ্যবান!");
         addDefault(l, ULTIMATE_SUBTITLE, "&bআপনি এই গেমে &c&lULTIMATE EXP &bপাবেন!");
         addDefault(l, ULTIMATE_CHAT, "&a&l✦ &6লাকি বুস্ট! &a&l✦ &7আপনি &e{duration}s &7এর জন্য &c&lULTIMATE EXP &7পেয়েছেন!");
+        addDefault(l, FIRST_BED_DESTROY, "&aআপনি আপনার প্রথম বেড ধ্বংস করেছেন! আপনি &e{amount} XP &aপেয়েছেন!");
     }
 
     private static void addDefault(@NotNull Language l, String path, Object value) {

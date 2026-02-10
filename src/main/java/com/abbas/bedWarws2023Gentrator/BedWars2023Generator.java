@@ -1,6 +1,7 @@
 package com.abbas.bedWarws2023Gentrator;
 
 import com.abbas.bedWarws2023Gentrator.Manager.LuckyBoostManager;
+import com.abbas.bedWarws2023Gentrator.commands.StatsCommand;
 import com.abbas.bedWarws2023Gentrator.configuration.ConfigPath;
 import com.abbas.bedWarws2023Gentrator.configuration.Messages;
 import com.tomkeuper.bedwars.api.BedWars;
@@ -43,12 +44,18 @@ public final class BedWars2023Generator extends JavaPlugin {
             Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "BedWars2023 plugin found! Enabling BedWarsRewardsGenerator.");
             Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "ConfigPath: " + getPath() + "/config.yml");
             registerEvents();
+            registerCommands();
         }
     }
 
     private void registerEvents() {
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new RewardsGenerator(this), this);
+        pluginManager.registerEvents(new AFKListener(this), this);
+    }
+
+    private void registerCommands() {
+        new StatsCommand(api.getBedWarsCommand(), "Stats", this);
     }
 
     public void giveXp(Player player, int amount, String source) {
@@ -98,6 +105,10 @@ public final class BedWars2023Generator extends JavaPlugin {
         yml.addDefault(ConfigPath.XP_DIAMOND_AMOUNT, 25);
         yml.addDefault(ConfigPath.XP_EMERALD_ENABLED, true);
         yml.addDefault(ConfigPath.XP_EMERALD_AMOUNT, 60);
+        yml.addDefault(ConfigPath.XP_FIRST_BED_DESTROY_ENABLED, true);
+        yml.addDefault(ConfigPath.XP_FIRST_BED_DESTROY_AMOUNT, 100);
+        yml.addDefault(ConfigPath.XP_FIRST_BLOOD_ENABLE, true);
+        yml.addDefault(ConfigPath.XP_FIRST_BLOOD_AMOUNT, 100);
         yml.addDefault(ConfigPath.LUCKY_BOOST_ENABLED, true);
         yml.addDefault(ConfigPath.LUCKY_BOOST_CHANCE, 0.05);
         yml.addDefault(ConfigPath.LUCKY_BOOST_DURATION, 120);// default 2 minutes
